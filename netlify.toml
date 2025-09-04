@@ -1,15 +1,33 @@
 # netlify.toml 配置文件
 
 [[redirects]]
+  from = "/*"
+  to = "https://readymag.website/u2578139204/5738442/:splat"
+  status = 200
+  force = true
+  # 关键设置：告诉Netlify不要将响应视为文件下载，而是作为网页渲染
+  [redirects.headers]
+    Content-Type = "text/html; charset=UTF-8"
+
+# 新增：处理所有其他静态资源（图片、JS、CSS等），全部代理到Readymag
+[[redirects]]
+  from = "/_next/static/*"
+  to = "https://readymag.website/u2578139204/5738442/_next/static/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/assets/*"
   to = "https://readymag.website/u2578139204/5738442/assets/:splat"
   status = 200
   force = true
 
-[[redirects]]
-  from = "/*"
-  to = "https://readymag.website/u2578139204/5738442/:splat"
-  status = 200
-  force = true
-  [redirects.headers]
-    Content-Type = "text/html; charset=UTF-8"
+# 最重要的部分：使用Edge Functions重写HTML中的路径
+[[edge_functions]]
+  function = "rewrite-path"
+  path = "/*"
+
+# 定义一个处理函数（需要在Netlify后台创建）
+[edge_functions.config]
+  [[edge_functions.config.associations]]
+    path = "/*"
