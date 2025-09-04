@@ -1,10 +1,15 @@
 # netlify.toml 配置文件
 
 [[redirects]]
+  from = "/assets/*"
+  to = "https://readymag.website/u2578139204/5738442/assets/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "https://readymag.website/u2578139204/5738442/:splat"
   status = 200
   force = true
-  # 关键设置：告诉Netlify不要将响应视为文件下载，而是作为网页渲染
   [redirects.headers]
     Content-Type = "text/html; charset=UTF-8"
